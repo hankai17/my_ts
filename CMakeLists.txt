@@ -190,16 +190,19 @@ add_library(${PROJECT_NAME}_static STATIC ${LIB_SRC})
 
 option(TEST "ON for complile test" ON)
 if(TEST)
-  my_ts_add_executable(test_List ts/test_List.cc ${PROJECT_NAME} "${LIBS}")
+  my_ts_add_executable(list_test test/list_test.cc ${PROJECT_NAME} "${LIBS}")
+  my_ts_add_executable(arena_test test/arena_test.cc ${PROJECT_NAME} "${LIBS}")
+  my_ts_add_executable(atomic_test test/atomic_test.cc ${PROJECT_NAME} "${LIBS}")
+  my_ts_add_executable(freelist_test test/freelist_test.cc ${PROJECT_NAME} "${LIBS}")
+  my_ts_add_executable(map_test test/map_test.cc ${PROJECT_NAME} "${LIBS}")
+  my_ts_add_executable(pq_test test/pq_test.cc ${PROJECT_NAME} "${LIBS}")
+  my_ts_add_executable(regex_test test/regex_test.cc ${PROJECT_NAME} "${LIBS}")
+  my_ts_add_executable(vector_test test/vector_test.cc ${PROJECT_NAME} "${LIBS}")
+  my_ts_add_executable(geometry_test test/geometry_test.cc ${PROJECT_NAME} "${LIBS}")
+  my_ts_add_executable(x509_test test/x509_test.cc ${PROJECT_NAME} "${LIBS}")
 endif()
 
-#test_arena.cc
-#test_atomic.cc
-#test_freelist.cc
 #test_geometry.cc
-#test_List.cc
-#test_Map.cc
-#test_PriorityQueue.cc
 #test_Regex.cc
 #test_Vec.cc
 #test_X509HostnameValidator.cc
