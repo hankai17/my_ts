@@ -200,6 +200,9 @@ if(TEST)
   my_ts_add_executable(vector_test test/vector_test.cc ${PROJECT_NAME} "${LIBS}")
   my_ts_add_executable(geometry_test test/geometry_test.cc ${PROJECT_NAME} "${LIBS}")
   my_ts_add_executable(x509_test test/x509_test.cc ${PROJECT_NAME} "${LIBS}")
+
+  my_ts_add_executable(mem_test test/mem_test.cc ${PROJECT_NAME} "${LIBS}")
+  my_ts_add_executable(ptr_test test/ptr_test.cc ${PROJECT_NAME} "${LIBS}")
 endif()
 
 #test_geometry.cc
