@@ -80,7 +80,7 @@ PriorityQueue<T, Comp>::empty()
 
 template <typename T, typename Comp>
 void
-PriorityQueue<T, Comp>::push(PriorityQueueEntry<T> *entry)
+PriorityQueue<T, Comp>::push(PriorityQueueEntry<T> *entry) // 树的数组形式  按顺序插入 插入后则跟其父比较
 {
   ink_release_assert(entry != NULL);
 
@@ -112,7 +112,7 @@ PriorityQueue<T, Comp>::pop()
 
   _swap(0, _v.length() - 1);
   _v.pop();
-  _bubble_down(0);
+  _bubble_down(0); // pop后则跟其子比较
 }
 
 template <typename T, typename Comp>
@@ -182,7 +182,7 @@ PriorityQueue<T, Comp>::_swap(uint32_t i, uint32_t j)
 
 template <typename T, typename Comp>
 void
-PriorityQueue<T, Comp>::_bubble_up(uint32_t index)
+PriorityQueue<T, Comp>::_bubble_up(uint32_t index) // 与idx的父比较 确保小值往上窜
 {
   if (empty()) {
     ink_release_assert(false);
@@ -205,7 +205,7 @@ PriorityQueue<T, Comp>::_bubble_up(uint32_t index)
 
 template <typename T, typename Comp>
 void
-PriorityQueue<T, Comp>::_bubble_down(uint32_t index)
+PriorityQueue<T, Comp>::_bubble_down(uint32_t index) // 与idx的最小的儿子比较 确保最小值往上窜
 {
   if (empty()) {
     // Do nothing

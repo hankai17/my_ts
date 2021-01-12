@@ -64,7 +64,7 @@ set(LIB_SRC
         ts/HashSip.cc
         ts/HashSip.h
         ts/HostLookup.cc
-        ts/HostLookup.h
+        #ts/HostLookup.h
         ts/hugepages.cc
         ts/hugepages.h
         ts/I_Layout.h
@@ -109,6 +109,8 @@ set(LIB_SRC
         ts/ink_queue.cc
         ts/ink_queue.h
         ts/ink_queue_utils.cc
+        ts/ink_queue_ext.cc
+        ts/ink_queue_ext.h
         ts/ink_rand.cc
         ts/ink_rand.h
         ts/ink_res_init.cc
@@ -190,6 +192,7 @@ add_library(${PROJECT_NAME}_static STATIC ${LIB_SRC})
 
 option(TEST "ON for complile test" ON)
 if(TEST)
+  my_ts_add_executable(diags_test test/diags_test.cc ${PROJECT_NAME} "${LIBS}")
   my_ts_add_executable(list_test test/list_test.cc ${PROJECT_NAME} "${LIBS}")
   my_ts_add_executable(arena_test test/arena_test.cc ${PROJECT_NAME} "${LIBS}")
   my_ts_add_executable(atomic_test test/atomic_test.cc ${PROJECT_NAME} "${LIBS}")
@@ -203,6 +206,13 @@ if(TEST)
 
   my_ts_add_executable(mem_test test/mem_test.cc ${PROJECT_NAME} "${LIBS}")
   my_ts_add_executable(ptr_test test/ptr_test.cc ${PROJECT_NAME} "${LIBS}")
+  my_ts_add_executable(token_test test/token_test.cc ${PROJECT_NAME} "${LIBS}")
+  my_ts_add_executable(event_notify_test test/event_notify_test.cc ${PROJECT_NAME} "${LIBS}")
+  my_ts_add_executable(fastlz_test test/fastlz_test.cc ${PROJECT_NAME} "${LIBS}")
+  my_ts_add_executable(dynarray_test test/dynarray_test.cc ${PROJECT_NAME} "${LIBS}")
+  #my_ts_add_executable(hostlookup_test test/hostlookup_test.cc ${PROJECT_NAME} "${LIBS}")
+  my_ts_add_executable(hugepage_test test/hugepage_test.cc ${PROJECT_NAME} "${LIBS}")
+  my_ts_add_executable(args_test test/args_test.cc ${PROJECT_NAME} "${LIBS}")
 endif()
 
 #test_geometry.cc

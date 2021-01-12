@@ -87,6 +87,33 @@ private:
     int* m_ptr;
 };
 
+class B : public RefCountObj {
+public:
+    B() :m_b(0) {
+        std::cout<<"construct"<<std::endl;
+    }
+
+    B(const B& a) :m_b(a.m_b) {
+        std::cout<<"cp construct"<<std::endl;
+    }
+
+    B(B&& a) :m_b(a.m_b) { //为什么move构造 只是一个浅拷贝? 因为他是右值 因为它不需要深拷贝 只需要转移控制权限就可以了
+        std::cout<<"move construct"<<std::endl;
+        a.m_b = 0;
+    }
+
+    std::string toString() {
+        return std::string("test");
+    }
+
+    ~B() {
+        std::cout<<"destruct"<<std::endl;
+    }
+
+    Ptr<B> next;
+    int m_b;
+};
+
 int test() {
     A* a = new A();
     std::cout << "a->refcount: " << a->refcount() << std::endl;
@@ -122,9 +149,70 @@ int test() {
     return 0;
 }
 
+Ptr<B> internal_test() {
+    B* b = new B();
+    Ptr<B> smart_obj = Ptr<B>(b);
+
+    B* b1 = new B();
+    Ptr<B> smart_obj1 = Ptr<B>(b1);
+
+    B* b2 = new B();
+    Ptr<B> smart_obj2 = Ptr<B>(b2);
+
+    B* b3 = new B();
+    Ptr<B> smart_obj3 = Ptr<B>(b3);
+
+    smart_obj->next = smart_obj1;
+    smart_obj1->next = smart_obj2;
+    smart_obj2->next = smart_obj3;
+
+    std::cout << "smart_obj->refcount: " << smart_obj->refcount() << std::endl;
+    std::cout << "smart_obj1->refcount: " << smart_obj1->refcount() << std::endl;
+    std::cout << "smart_obj2->refcount: " << smart_obj2->refcount() << std::endl;
+    std::cout << "smart_obj3->refcount: " << smart_obj3->refcount() << std::endl;
+
+    // b->b1->b2->b3 // 除了本身 还有前一个节点惦记
+
+    //b->next = b1->next;
+    ////b->next = b2;
+
+    //std::cout << "smart_obj->refcount: " << smart_obj->refcount() << std::endl;
+    //std::cout << "smart_obj1->refcount: " << smart_obj1->refcount() << std::endl;
+    //std::cout << "smart_obj2->refcount: " << smart_obj2->refcount() << std::endl;
+    //std::cout << "smart_obj3->refcount: " << smart_obj3->refcount() << std::endl;
+    
+    return smart_obj;
+}
+
+int test1() {
+    Ptr<B> smart_obj = internal_test();
+    std::cout << "---------------------" << std::endl;
+
+    //std::cout << "smart_obj->refcount: " << smart_obj->refcount() << std::endl;
+    //std::cout << "smart_obj->next->refcount: " << smart_obj->next->refcount() << std::endl;
+
+    //for (; smart_obj != nullptr; smart_obj = smart_obj->next) {
+    //    std::cout << "smart_obj->refcount: " << smart_obj->refcount() << std::endl;
+    //}
+
+    //for (Ptr<B> smart_obj_tmp = smart_obj; 
+    //        smart_obj_tmp != nullptr; 
+    //        smart_obj_tmp = smart_obj_tmp->next) {
+    //    std::cout << "smart_obj_tmp->refcount: " << smart_obj_tmp->refcount() << std::endl;
+    //}
+
+    B* ptr = smart_obj;
+    for (; ptr != nullptr; ptr = ptr->next) {
+      std::cout << "--" << std::endl;
+    }
+
+    return 0;
+}
+
 
 int main() {
-    test();
+    //test();
+    test1();
 
     //MyString str("aaaaaaaaaa");
     //std::cout << "str: " << str.c_str() << std::endl;

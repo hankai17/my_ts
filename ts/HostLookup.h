@@ -120,7 +120,7 @@ private:
   bool MatchArray(HostLookupState *s, void **opaque_ptr, DynArray<int> &array, bool host_done);
   void PrintHostBranch(HostBranch *hb, HostLookupPrintFunc f);
   HostBranch *root;         // The top of the search tree
-  HostLeaf *leaf_array;     // array of all leaves in tree
+  HostLeaf *leaf_array;     // array of all leaves in tree 先按照idx顺序的插入数组中
   int array_len;            // the length of the arrays
   int num_el;               // the numbe of itmems in the tree
   const char *matcher_name; // Used for Debug/Warning/Error messages
